@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2024-07-30-create-tables-1" author="bazilval">
+        <sql>PRAGMA foreign_keys = ON;</sql>
+
+        <createTable tableName="loan_type">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="TEXT">
+                <constraints unique="true" nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2024-07-30-create-tables-2" author="bazilval">
+        <createTable tableName="loan_step">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="order_num" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_type_id" type="INTEGER">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="fk_loan_step_loan_type"
+                        referencedColumnNames="loan_type_id"
+                        referencedTableName="loan_type"
+                />
+            </column>
+            <column name="expected_duration" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2024-07-30-create-tables-3" author="bazilval">
+        <createTable tableName="loan_request">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_type_id" type="INTEGER">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="fk_loan_request_loan_type"
+                        referencedColumnNames="loan_type_id"
+                        referencedTableName="loan_type"
+                />
+            </column>
+            <column name="request_status" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_amount" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="modified_date" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2024-07-30-create-tables-4" author="bazilval">
+        <createTable tableName="request_step">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="actual_duration" type="INTEGER">
+                <constraints nullable="true" />
+            </column>
+            <column name="loan_request_id" type="INTEGER">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="fk_request_step_loan_request"
+                        referencedColumnNames="loan_request_id"
+                        referencedTableName="loan_request"
+                />
+            </column>
+            <column name="loan_step_id" type="INTEGER">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="fk_request_step_loan_step"
+                        referencedColumnNames="loan_step_id"
+                        referencedTableName="loan_step"
+                />
+            </column>
+            <column name="step_status" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="modified_date" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
